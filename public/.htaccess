@@ -1,0 +1,30 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # NOTE: Laravel's default "redirect away trailing slashes" rule was
+    # removed here on purpose. This app's API routes (routes/api.php) all
+    # intentionally KEEP their trailing slash (/api/products/, not
+    # /api/products) to match the existing React frontend's fetch calls,
+    # unchanged. A 301 redirect stripping it would silently turn every
+    # POST/PUT/PATCH/DELETE request (login, checkout, admin saves, ...)
+    # into a GET with no body when the browser follows it. Do not re-add
+    # this rule without also removing every trailing slash from
+    # routes/api.php AND frontend/src/api.js.
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
