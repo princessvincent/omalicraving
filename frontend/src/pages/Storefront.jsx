@@ -511,11 +511,6 @@ export default function Storefront() {
             {payingWith === "paystack" ? <span className="spinner" /> : null}
             {payingWith === "paystack" ? "Preparing…" : "Pay with Paystack"}
           </button>
-          <button className="btn btn-primary" disabled={!!payingWith} onClick={submitCheckoutStripe}>
-            {payingWith === "stripe" ? <span className="spinner" /> : null}
-            {payingWith === "stripe" ? "Redirecting…" : "Pay with Stripe (international cards)"}
-          </button>
-          <div className="hint" style={{ textAlign: "center" }}>Choose whichever works with your card — both are secure.</div>
         </div>
       </div>
 
