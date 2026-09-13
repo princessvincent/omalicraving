@@ -1,12 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../api.js";
+import { BRAND } from "../config.js";
 import { useToast } from "../useToast.js";
-import { loadCart, saveCart, loadWishlist, saveWishlist } from "../cartStore.js";
+import { loadWishlist, saveWishlist } from "../cartStore.js";
 import NavBar from "../components/NavBar.jsx";
 import Footer from "../components/Footer.jsx";
 
 const emptyReview = { name: "", rating: 0, comment: "" };
+const CURRENCY_SYMBOL = "₦";
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -15,26 +17,20 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
-  const [qty, setQty] = useState(1);
 
-  const [cart, setCart] = useState(loadCart);
   const [wishlist, setWishlist] = useState(loadWishlist);
-  const [account, setAccount] = useState(null);
-  const skipCartPush = useRef(true);
-  const [currencySymbol] = useState("₦");
 
   const [reviewForm, setReviewForm] = useState(emptyReview);
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [reviewError, setReviewError] = useState("");
   const [reviewDone, setReviewDone] = useState(false);
 
-  const money = (n) => `${currencySymbol}${Number(n).toLocaleString()}`;
+  const money = (n) => `${CURRENCY_SYMBOL}${Number(n).toLocaleString()}`;
 
   useEffect(() => {
     setProduct(null);
     setNotFound(false);
     setActiveImg(0);
-    setQty(1);
     setReviewForm(emptyReview);
     setReviewDone(false);
     setReviewError("");
@@ -45,42 +41,8 @@ export default function ProductDetail() {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  // Same cross-device cart sync as the storefront (see Storefront.jsx) — a
-  // customer can land straight on a product page from a shared link, so
-  // this page needs the same account-cart merge, not just localStorage.
-  useEffect(() => {
-    if (!api.hasToken()) {
-      skipCartPush.current = false;
-      return;
-    }
-    api
-      .session()
-      .then((data) => {
-        setAccount(data);
-        return api.getAccountCart();
-      })
-      .then((cartData) => {
-        const serverItems = cartData?.items || {};
-        if (Object.keys(serverItems).length > 0) setCart(serverItems);
-        else if (Object.keys(cart).length > 0) api.updateAccountCart(cart).catch(() => {});
-      })
-      .catch(() => api.clearToken())
-      .finally(() => {
-        skipCartPush.current = false;
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    saveCart(cart);
-    if (account && !skipCartPush.current) {
-      api.updateAccountCart(cart).catch(() => {});
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
   useEffect(() => saveWishlist(wishlist), [wishlist]);
 
-  const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
   const wishlistCount = wishlist.length;
   const isWishlisted = product ? wishlist.includes(String(product.id)) : false;
 
@@ -92,18 +54,20 @@ export default function ProductDetail() {
     setWishlist((prev) => {
       const already = prev.includes(key);
       if (already) {
-        toast("Removed from wishlist");
+        toast("Removed from saved items");
         return prev.filter((x) => x !== key);
       }
-      toast("Added to wishlist");
+      toast("Saved");
       return [...prev, key];
     });
   }
 
-  function addToCart() {
-    if (!product) return;
-    setCart((prev) => ({ ...prev, [product.id]: (prev[product.id] || 0) + qty }));
-    toast(`Added ${qty > 1 ? `${qty} ` : ""}to cart`);
+  // Builds a WhatsApp deep link with a pre-filled enquiry message naming
+  // this specific product and its price.
+  function inquiryLink() {
+    if (!product) return `https://wa.me/${BRAND.whatsappNumber}`;
+    const text = `Hi! I'm interested in "${product.name}" (${money(product.price)}). Is it available?`;
+    return `https://wa.me/${BRAND.whatsappNumber}?text=${encodeURIComponent(text)}`;
   }
 
   async function submitReview(e) {
@@ -132,7 +96,7 @@ export default function ProductDetail() {
     }
   }
 
-  const Topbar = <NavBar cartCount={cartCount} wishlistCount={wishlistCount} />;
+  const Topbar = <NavBar wishlistCount={wishlistCount} />;
 
   if (notFound) {
     return (
@@ -140,11 +104,11 @@ export default function ProductDetail() {
         {Topbar}
         <main>
           <div className="empty">
-            <div className="glyph">🥘</div>
-            This product isn't available anymore.
+            <div className="glyph">📦</div>
+            This listing isn't available anymore.
             <div style={{ marginTop: 14 }}>
               <Link to="/" className="btn btn-primary btn-inline" style={{ display: "inline-flex" }}>
-                Back to the pantry
+                Back to listings
               </Link>
             </div>
           </div>
@@ -171,13 +135,13 @@ export default function ProductDetail() {
 
       <main>
         <div className="pd-back">
-          <Link to="/">← Back to the pantry</Link>
+          <Link to="/">← Back to listings</Link>
         </div>
 
         <div className="pd-layout">
           <div className="pd-gallery">
             <div className="pd-main-img">
-              {images.length > 0 ? <img src={images[activeImg]} alt={product.name} /> : "🥘"}
+              {images.length > 0 ? <img src={images[activeImg]} alt={product.name} /> : "📦"}
             </div>
             {images.length > 1 && (
               <div className="pd-thumbs">
@@ -212,15 +176,12 @@ export default function ProductDetail() {
             <p className="pd-desc">{product.description || "No description added yet."}</p>
 
             <div className="pd-actions">
-              <div className="qty-pill">
-                <button onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
-                <span>{qty}</span>
-                <button onClick={() => setQty((q) => q + 1)}>+</button>
-              </div>
-              <button className="btn btn-primary" onClick={addToCart}>Add to cart</button>
+              <a className="btn btn-primary" href={inquiryLink()} target="_blank" rel="noopener noreferrer">
+                💬 I want this — ask on WhatsApp
+              </a>
             </div>
             <button className={`pd-wish${isWishlisted ? " active" : ""}`} onClick={toggleWishlist}>
-              {isWishlisted ? "♥ Saved to wishlist" : "♡ Save to wishlist"}
+              {isWishlisted ? "♥ Saved" : "♡ Save this item"}
             </button>
           </div>
         </div>
@@ -283,13 +244,6 @@ export default function ProductDetail() {
       </main>
 
       <Footer />
-
-      {cartCount > 0 && (
-        <Link to="/?openCart=1" className="cart-bar">
-          <div className="cl"><span className="count">{cartCount}</span> View cart</div>
-          <div className="cr">→</div>
-        </Link>
-      )}
     </div>
   );
 }

@@ -1,20 +1,21 @@
 :root{
-  /* Warm, organic-market palette: cream surfaces, bold orange accent, deep
-     charcoal ink and buttons — the "Taste Organic" template look, adapted
-     to Omali Cravings' Nigerian-grocery branding. */
-  --bg:#f7f1e2; --surface:#ffffff; --surface-2:#efe4cb;
-  --ink:#221d15; --ink-soft:#6c6250; --ink-faint:#9c9280; --line:#e7dcc0;
-  --accent:#f2871f; --accent-ink:#3a1900; --accent-soft:#fce3c4;
-  --brand:#221d15; --brand-soft:#efe4cb; --brand-deep:#100d08;
-  --good:#3f7d3a; --good-soft:#e3efdc; --bad:#c0392b; --bad-soft:#fbe3df;
-  --shadow: 0 1px 2px rgba(34,29,21,0.08), 0 10px 24px -10px rgba(34,29,21,0.25);
+  /* Modern minimal dark palette: near-black surfaces, a single warm-gold
+     accent, generous contrast — SourceLink China's sourcing/inquiry brand.
+     color-scheme:dark so native form controls (checkboxes, date pickers)
+     render dark too. */
+  color-scheme: dark;
+  --bg:#0b0b0d; --surface:#151519; --surface-2:#1c1c22;
+  --ink:#f3f3f1; --ink-soft:#a6a6ae; --ink-faint:#6e6e78; --line:#2a2a32;
+  --accent:#e0a940; --accent-ink:#241a04; --accent-soft:#2c2210;
+  --brand:#e0a940; --brand-soft:#241f14; --brand-deep:#000000;
+  --good:#4caf6c; --good-soft:#122a1c; --bad:#e35d5d; --bad-soft:#301414;
+  --shadow: 0 1px 2px rgba(0,0,0,0.5), 0 10px 24px -10px rgba(0,0,0,0.7);
   --radius: 14px;
 }
-/* This site intentionally has ONE consistent look — the warm cream design —
-   on every page, for every visitor, regardless of their system/browser dark
-   mode setting. (There used to be an automatic dark palette here that kicked
-   in on a dark-mode system; removed so the site always matches the design,
-   the same way the admin dashboard was already locked to light below.) */
+/* This site intentionally has ONE consistent look — the modern minimal dark
+   design — on every page, for every visitor, regardless of their system/
+   browser dark mode setting (the admin dashboard stays forced-light below,
+   since the seller wants a bright working view for the dashboard). */
 /* The seller's dashboard should stay bright and easy to read at a glance —
    it shouldn't flip to a dim theme just because a phone/laptop happens to be
    set to system dark mode. Force the light palette here regardless. */
@@ -63,7 +64,7 @@ a{color:inherit}
 .topbar{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid var(--line);padding:14px 0}
 .topbar-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:inherit}
-.brand-mark{width:34px;height:34px;border-radius:9px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.brand-mark{width:34px;height:34px;border-radius:9px;background:var(--brand);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
 .brand-word{font-size:19px;font-weight:600;color:var(--ink);line-height:1}
 .brand-sub{font-size:10.5px;color:var(--ink-faint);letter-spacing:.05em;text-transform:uppercase;margin-top:2px}
 .icon-btn{position:relative;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;text-decoration:none}
@@ -125,7 +126,7 @@ a{color:inherit}
 .hero-visual{position:relative;width:190px;height:190px;margin:30px auto 6px;z-index:1}
 .hero-circle{width:100%;height:100%;border-radius:50%;overflow:hidden;background:var(--surface-2);border:6px solid var(--surface);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-size:56px}
 .hero-circle img{width:100%;height:100%;object-fit:cover}
-.hero-seal{position:absolute;left:-12px;bottom:-8px;width:66px;height:66px;border-radius:50%;background:var(--accent);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;font-weight:800;text-align:center;line-height:1.25;box-shadow:var(--shadow);border:3px solid var(--bg)}
+.hero-seal{position:absolute;left:-12px;bottom:-8px;width:66px;height:66px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;font-weight:800;text-align:center;line-height:1.25;box-shadow:var(--shadow);border:3px solid var(--bg)}
 .hero-chevrons{position:absolute;right:-4px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:1px;color:var(--accent);font-size:17px;font-weight:900;opacity:.5}
 @media (min-width:760px){
   .hero{padding:60px 0 52px}
@@ -154,7 +155,7 @@ a{color:inherit}
 .cats{display:flex;gap:8px;overflow-x:auto;padding:14px 0 6px;scrollbar-width:none}
 .cats::-webkit-scrollbar{display:none}
 .chip{flex:none;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
-.chip.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.chip.active{background:var(--brand);border-color:var(--brand);color:var(--accent-ink)}
 main{flex:1;padding:4px 0 40px}
 @media (min-width:760px){
   .section-intro{padding:36px 0 6px}
@@ -171,16 +172,18 @@ main{flex:1;padding:4px 0 40px}
 .card-img img{width:100%;height:100%;object-fit:cover}
 .card-tag{position:absolute;top:8px;left:8px;background:var(--good-soft);color:var(--good);font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px}
 .wish-btn{position:absolute;top:8px;right:8px;width:27px;height:27px;border-radius:50%;border:none;background:rgba(255,255,255,0.88);color:var(--ink-soft);font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow);line-height:1;padding:0}
-.wish-btn.active{color:var(--bad);background:#fff}
+.wish-btn.active{color:var(--bad);background:var(--surface)}
 .card-body{padding:10px 11px 12px;display:flex;flex-direction:column;gap:5px;flex:1}
 .card-name{font-size:13.5px;font-weight:700;line-height:1.25}
 .card-desc{font-size:11.5px;color:var(--ink-faint);line-height:1.4;min-height:2.6em}
 .card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:6px}
 .price{font-size:14.5px;font-weight:800;color:var(--brand)}
 .add-btn{width:30px;height:30px;border-radius:9px;border:none;background:var(--ink);color:var(--bg);font-size:17px;font-weight:700;cursor:pointer}
+.iwant-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 11px;border-radius:9px;border:none;background:var(--brand);color:var(--accent-ink);font-size:11.5px;font-weight:800;cursor:pointer;text-decoration:none;white-space:nowrap}
+.iwant-btn:hover{filter:brightness(1.08)}
 .qty-pill{display:flex;align-items:center;gap:8px;background:var(--brand);border-radius:9px;padding:3px}
-.qty-pill button{width:24px;height:24px;border:none;background:transparent;color:#fff;font-weight:800;font-size:14px;cursor:pointer}
-.qty-pill span{color:#fff;font-size:12.5px;font-weight:800;min-width:14px;text-align:center}
+.qty-pill button{width:24px;height:24px;border:none;background:transparent;color:var(--accent-ink);font-weight:800;font-size:14px;cursor:pointer}
+.qty-pill span{color:var(--accent-ink);font-size:12.5px;font-weight:800;min-width:14px;text-align:center}
 .empty{text-align:center;padding:60px 20px;color:var(--ink-faint)}
 .empty .glyph{font-size:32px;margin-bottom:10px}
 
@@ -260,7 +263,7 @@ main{flex:1;padding:4px 0 40px}
 .sum-row.total{color:var(--ink);font-weight:800;font-size:16px;padding-top:8px;margin-top:4px;border-top:1px dashed var(--line)}
 
 .btn{width:100%;padding:14px;border-radius:12px;border:none;font-size:14.5px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
-.btn-primary{background:var(--brand);color:#fff}
+.btn-primary{background:var(--brand);color:var(--accent-ink)}
 .btn-accent{background:var(--accent);color:var(--accent-ink)}
 .btn-ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
@@ -275,7 +278,7 @@ main{flex:1;padding:4px 0 40px}
 .hint{font-size:11px;color:var(--ink-faint);margin-top:5px}
 .error-text{font-size:12px;color:var(--bad);margin-top:6px;min-height:1em}
 
-.spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,0.35);border-top-color:#fff;animation:spin .7s linear infinite}
+.spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(36,26,4,0.35);border-top-color:var(--accent-ink);animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.spinner{animation:none}}
 
@@ -345,7 +348,7 @@ main{flex:1;padding:4px 0 40px}
 .admin-lock .lockbox{max-width:280px;margin:0 auto;text-align:left}
 .admin-head{display:flex;align-items:center;justify-content:space-between;margin:16px 0 12px;flex-wrap:wrap;gap:10px}
 .admin-head h2{margin:0;font-size:19px}
-.pill-btn{display:flex;align-items:center;gap:6px;background:var(--brand);color:#fff;border:none;border-radius:10px;padding:9px 13px;font-size:12.5px;font-weight:800;cursor:pointer}
+.pill-btn{display:flex;align-items:center;gap:6px;background:var(--brand);color:var(--accent-ink);border:none;border-radius:10px;padding:9px 13px;font-size:12.5px;font-weight:800;cursor:pointer}
 .admin-row{display:flex;gap:11px;align-items:center;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:9px}
 .admin-thumb{width:46px;height:46px;border-radius:9px;background:var(--surface-2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;overflow:hidden}
 .admin-thumb img{width:100%;height:100%;object-fit:cover}

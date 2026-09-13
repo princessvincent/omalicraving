@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { BRAND } from "../config.js";
-import { loadCart, loadWishlist } from "../cartStore.js";
+import { loadWishlist } from "../cartStore.js";
 import NavBar from "../components/NavBar.jsx";
 import Footer from "../components/Footer.jsx";
 
 export default function ContactPage() {
-  const [cart] = useState(loadCart);
   const [wishlist] = useState(loadWishlist);
   const [form, setForm] = useState({ name: "", message: "" });
 
-  const cartCount = Object.values(cart).reduce((a, b) => a + b, 0);
   const wishlistCount = wishlist.length;
 
   function sendWhatsApp(e) {
@@ -20,13 +18,13 @@ export default function ContactPage() {
 
   return (
     <div className="app">
-      <NavBar cartCount={cartCount} wishlistCount={wishlistCount} />
+      <NavBar wishlistCount={wishlistCount} />
 
       <section className="page-hero">
         <div className="page-hero-inner">
           <div className="eyebrow-bar" />
           <h1>Contact</h1>
-          <p className="page-hero-sub">Questions about an order, a product, or delivery? We'd love to hear from you.</p>
+          <p className="page-hero-sub">Questions about an item, pricing, or shipping? We'd love to hear from you.</p>
         </div>
         <div className="page-hero-diamond" />
       </section>
@@ -38,7 +36,7 @@ export default function ContactPage() {
             <h2>We reply fastest on WhatsApp</h2>
             <p className="pd-desc">
               For the quickest response, message us directly — we're usually online through the day and happy to help
-              with orders, ingredients you're looking for, or delivery questions.
+              with sourcing, pricing, or shipping questions.
             </p>
             <a href={`https://wa.me/${BRAND.whatsappNumber}`} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-inline">
               Chat on WhatsApp
@@ -46,7 +44,7 @@ export default function ContactPage() {
             <div className="contact-fact">
               <span className="g">📍</span>
               <div>
-                <div className="t">Delivering to</div>
+                <div className="t">Based in</div>
                 <div className="v">{BRAND.deliveryArea}</div>
               </div>
             </div>
@@ -67,7 +65,7 @@ export default function ContactPage() {
             </div>
             <div className="field"><label>Message</label>
               <textarea
-                placeholder="Tell us what you need…"
+                placeholder="Tell us what you're looking for…"
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
               />

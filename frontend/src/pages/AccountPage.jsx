@@ -197,12 +197,12 @@ export default function AccountPage() {
             {AUTH_PHOTO_URL ? <img src={AUTH_PHOTO_URL} alt="" /> : <AuthArt />}
             <div className="auth-visual-copy">
               <div className="eyebrow-bar" />
-              <h2>Your Naija food,<br />here in China</h2>
-              <p>Garri, stockfish, egusi, palm oil — the real thing, packed fresh and delivered to your door.</p>
+              <h2>Source anything,<br />straight from China</h2>
+              <p>Browse real listings and enquire directly — no payments, no waiting, just a WhatsApp chat away.</p>
               <ul className="auth-points">
-                <li>No account needed — guest checkout always works</li>
-                <li>Sign in to save your delivery address</li>
-                <li>Your cart follows you to any device</li>
+                <li>No account needed — just tap "I want this" and chat on WhatsApp</li>
+                <li>Sign in to save your details for faster replies</li>
+                <li>Your saved items follow you to any device</li>
               </ul>
             </div>
           </div>
@@ -291,7 +291,7 @@ export default function AccountPage() {
                   </div>
                   <div className="field"><label>Phone (optional)</label>
                     <input
-                      placeholder="So we can reach you about your order"
+                      placeholder="So we can reach you about your enquiries"
                       value={registerForm.phone}
                       onChange={(e) => setRegisterForm({ ...registerForm, phone: e.target.value })}
                     />

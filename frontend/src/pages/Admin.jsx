@@ -361,7 +361,7 @@ export default function Admin() {
         <div className="topbar admin-topbar">
           <div className="topbar-row">
             <a href="/" className="brand">
-              <div className="brand-mark">🍲</div>
+              <div className="brand-mark">📦</div>
               <div>
                 <div className="brand-word">{BRAND.name}</div>
                 <div className="brand-sub">Admin</div>
@@ -393,7 +393,7 @@ export default function Admin() {
         <div className="topbar admin-topbar">
           <div className="topbar-row">
             <a href="/" className="brand">
-              <div className="brand-mark">🍲</div>
+              <div className="brand-mark">📦</div>
               <div>
                 <div className="brand-word">{BRAND.name}</div>
                 <div className="brand-sub">Admin</div>
@@ -413,7 +413,7 @@ export default function Admin() {
               the shop admin.
             </p>
             <Link to="/" className="btn btn-ghost btn-inline" style={{ display: "inline-flex" }}>
-              Back to the pantry
+              Back to the site
             </Link>
           </div>
         </main>
@@ -429,7 +429,7 @@ export default function Admin() {
       <div className="topbar admin-topbar">
         <div className="topbar-row">
           <a href="/" className="brand">
-            <div className="brand-mark">🍲</div>
+            <div className="brand-mark">📦</div>
             <div>
               <div className="brand-word">{BRAND.name}</div>
               <div className="brand-sub">Admin</div>
@@ -455,7 +455,7 @@ export default function Admin() {
             English labels, not just icons to guess at. */}
         <aside className="admin-sidebar">
           <a href="/" className="brand">
-            <div className="brand-mark">🍲</div>
+            <div className="brand-mark">📦</div>
             <div>
               <div className="brand-word">{BRAND.name}</div>
               <div className="brand-sub">Admin</div>
